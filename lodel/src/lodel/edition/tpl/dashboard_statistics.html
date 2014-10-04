@@ -33,72 +33,105 @@
 <ELSE/>
 <title>[(#SITE|strtoupper)].[@COMMON.STATISTICS]</title>
 </IF>
-<MACRO NAME="JS_FONCTIONS_ARBORESCENCE" />
-<MACRO NAME="JS_AFFICHE_IMAGE" />
+<!--[<MACRO NAME="JS_FONCTIONS_ARBORESCENCE" />
+<MACRO NAME="JS_AFFICHE_IMAGE" />]-->
 <MACRO NAME="HEADER_HEAD_CLOSE" />
 <MACRO NAME="HEADER_LOGO" />
 
 	<ul class="entitiesPath">
 		<li><strong>[@COMMON.STATISTICS] :</strong> [@COMMON.STATISTICS_DESCRIPTION]</li>
 	</ul>
-	<br />
-	<LOOP NAME="classe" TABLE="classes" WHERE="classtype='entities' AND status gt 0" ORDER="rank">
-	<DO>	
-		<LOOP NAME="type" TABLE="types" WHERE="status gt 0" WHERE="class='[#CLASS]'" ORDER="rank">
+	<div class="col-md-12">
+		<div class="page-header">
+			<h1>[@COMMON.ENTITY_CLASS]</h1>
+		</div>
+	<LET VAR="classtype">entities</LET>
+	<LET VAR="typetable">types</LET>
+	<LOOP NAME="classe" TABLE="classes" WHERE="classtype='[#CLASSTYPE]' AND status gt 0" ORDER="rank">
+	<DO>
+		<LOOP NAME="type" TABLE="[#TYPETABLE]" WHERE="status gt 0" WHERE="class='[#CLASS]'" ORDER="rank">
 		<BEFORE>
-			<table class="statistics">
-				<caption><MACRO NAME="DISPLAY_ALTERTITLE"></caption>
-			<tr>
-				<td class="empty">&nbsp;</td>
-				<th class="status"><img src="[#SHAREURL]/images/draft.gif" alt="[@COMMON.DRAFT]" title="[@COMMON.DRAFT]" /></th>
-				<th class="status"><img src="[#SHAREURL]/images/unpublished.gif" alt="[@COMMON.READY_FOR_PUBLICATION]" title="[@COMMON.READY_FOR_PUBLICATION]" /></th>
-				<th class="status"><img src="[#SHAREURL]/images/published.gif" alt="[@COMMON.PUBLISHED]" title="[@COMMON.PUBLISHED]"/></th>
-				<th class="status"><img src="[#SHAREURL]/images/locked.gif" alt="[@COMMON.PROTECTED]" title="[@COMMON.PROTECTED]" /></th>
-			</tr>
+			<div class="col-md-6">
+			<div class="page-header">
+				<h2><MACRO NAME="DISPLAY_ALTERTITLE"></h2>
+			</div>
+				<table class="table">
+					<thead>
+					<tr>
+						<th class="empty">&nbsp;</td>
+						<th class="status"><img src="[#SHAREURL]/images/draft.gif" alt="[@COMMON.DRAFT]" title="[@COMMON.DRAFT]" /></th>
+						<th class="status"><img src="[#SHAREURL]/images/unpublished.gif" alt="[@COMMON.READY_FOR_PUBLICATION]" title="[@COMMON.READY_FOR_PUBLICATION]" /></th>
+						<th class="status"><img src="[#SHAREURL]/images/published.gif" alt="[@COMMON.PUBLISHED]" title="[@COMMON.PUBLISHED]"/></th>
+						<th class="status"><img src="[#SHAREURL]/images/locked.gif" alt="[@COMMON.PROTECTED]" title="[@COMMON.PROTECTED]" /></th>
+					</tr>
+					</thead>
+					<tbody>
 		</BEFORE>
 		<DO>
 		<LET VAR="curtotal"></LET>
-		<tr>
-			<th class="type"><MACRO NAME="DISPLAY_ALTERTITLE"></th>
-			<LOOP NAME="docbrouillon" TABLE="entities" WHERE="status = -8" WHERE="idtype='[#ID]'" ORDER="rank">
-			<BEFORE>
-			
-			<td>[#NBRESULTS]</td></BEFORE>
-			<ALTERNATIVE>
-				<td>0</td>
-			</ALTERNATIVE>
-			</LOOP>
-			<LOOP NAME="docnonpub" TABLE="entities" WHERE="status = -1" WHERE="idtype='[#ID]'" ORDER="rank">
-			<BEFORE>
-				
-				<td>[#NBRESULTS]</td></BEFORE>
-			<ALTERNATIVE>
-				<td>0</td>
-			</ALTERNATIVE>
-			</LOOP>
-			<LOOP NAME="docpub" TABLE="entities" WHERE="status =1" WHERE="idtype='[#ID]'" ORDER="rank">
-			<BEFORE>
-				<td>[#NBRESULTS]</td>
-			</BEFORE>
-			<ALTERNATIVE>
-				<td>0</td>
-			</ALTERNATIVE>
-			</LOOP>
-			<LOOP NAME="docprotege" TABLE="entities" WHERE="status = 8" WHERE="idtype='[#ID]'" ORDER="rank">
-			<BEFORE>
-			
-				<td>[#NBRESULTS]</td></BEFORE>
-			<ALTERNATIVE>
-				<td>0</td>
-			</ALTERNATIVE>
-			</LOOP>
-			
-		</tr>		
-		</DO>
+				<tr>
+					<th class="type"><MACRO NAME="DISPLAY_ALTERTITLE"></th>
+					<LOOP NAME="docbrouillon" TABLE="[#CLASSTYPE]" WHERE="status = -8" WHERE="idtype='[#ID]'">
+					<BEFORE>
+					
+					<td>[#NBRESULTS]</td></BEFORE>
+					<ALTERNATIVE>
+						<td>0</td>
+					</ALTERNATIVE>
+					</LOOP>
+					<LOOP NAME="docnonpub" TABLE="[#CLASSTYPE]" WHERE="status = -1" WHERE="idtype='[#ID]'">
+					<BEFORE>
+						
+						<td>[#NBRESULTS]</td></BEFORE>
+					<ALTERNATIVE>
+						<td>0</td>
+					</ALTERNATIVE>
+					</LOOP>
+					<LOOP NAME="docpub" TABLE="[#CLASSTYPE]" WHERE="status =1" WHERE="idtype='[#ID]'">
+					<BEFORE>
+						<td>[#NBRESULTS]</td>
+					</BEFORE>
+					<ALTERNATIVE>
+						<td>0</td>
+					</ALTERNATIVE>
+					</LOOP>
+					<LOOP NAME="docprotege" TABLE="[#CLASSTYPE]" WHERE="status = 8" WHERE="idtype='[#ID]'">
+					<BEFORE>
+						<td>[#NBRESULTS]</td></BEFORE>
+					<ALTERNATIVE>
+						<td>0</td>
+					</ALTERNATIVE>
+					</LOOP>
+				</tr>		
+			</DO>
 		<AFTER>
-			</table>
+					</tbody>
+				</table>
+			</div>
+			
 		</AFTER>
 		</LOOP>
 	</DO>			
 	</LOOP>
+	</div>
+	
+	<div class="col-md-12">
+		<div class="page-header">
+			<h1>[@COMMON.ENTRIES_CLASS]</h1>
+		</div>
+		<LET VAR="classtype">entries</LET>
+		<LET VAR="typetable">entrytypes</LET>
+		<LET VAR="order">rank</LET>
+		<LOOP NAME="classe"></LOOP>
+	</div>
+	
+	<div class="col-md-12">
+		<div class="page-header">
+			<h1>[@COMMON.PERSONS_CLASS]</h1>
+		</dib>
+		<LET VAR="classtype">persons</LET>
+		<LET VAR="typetable">persontypes</LET>
+		<LET VAR="order">rank</LET>
+		<LOOP NAME="classe"></LOOP>
+	</div>
 <MACRO NAME="CLOSE_HTML">
