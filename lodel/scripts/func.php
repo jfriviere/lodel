@@ -1084,7 +1084,7 @@ function rewriteFilename($string)
  * @param bool $toBcc envoie le mail en cachant les destinataires
  * @return boolean
  */
-function send_mail($to, $body, $subject, $fromaddress, $fromname, array $docs = array(), $isHTML = true, $toBcc = false)
+function send_mail($to, $body, $subject, $fromaddress, $fromname, array $docs = array(), $isHTML = true, $toBcc = false, $cc = '')
 {
     $replace = array(
         "\xc2\x80" => "\xe2\x82\xac", /* EURO SIGN */
@@ -1165,10 +1165,19 @@ function send_mail($to, $body, $subject, $fromaddress, $fromname, array $docs = 
     $body =& $message->get($aParam);
 
     if ($toBcc) {
+        if (is_array($to))
+            $to = implode(', ', $to);
         $headers = array('Bcc' => $to);
         $to = '';
         $headers =& $message->headers($headers, true);
     } else $headers =& $message->headers();
+
+    if ($cc) {
+        if (is_array($cc))
+            $cc = implode(', ', $cc);
+        $ccs = array('Cc' => $cc);
+        $headers =& $message->headers($ccs, true);
+    }
 
     unset($message);
     // send the mail
@@ -1441,12 +1450,18 @@ function rmtree($rep)
     if(!file_exists($rep)) return;
     $rep = realpath($rep);
     $is_removable = false;
-    foreach (array(realpath(SITEROOT."/docannexe/"), realpath(C::get('cacheDir', 'cfg'))) as $removable)
+    foreach (array(realpath(SITEROOT."/docannexe/"), realpath(C::get('cacheDir', 'cfg')), realpath(C::get('tmpoutdir', 'cfg'))) as $removable)
         if (0 === strpos($rep, $removable))
             $is_removable = true;
-    if (!$is_removable)
-            trigger_error("Interdiction d'effacer le répertoire $rep", E_USER_ERROR);
-    $fd = opendir($rep) or trigger_error("Impossible d'ouvrir $rep", E_USER_ERROR);
+    if (!$is_removable) {
+        error_log("Interdiction d'effacer le répertoire $rep");
+        return;
+    }
+    $fd = @opendir($rep);
+    if (false === $fd) {
+        error_log("Impossible d'ouvrir $rep");
+        return;
+    }
     while (($file = readdir($fd)) !== false) {
         if('.' === $file{0}) continue;
         $file = $rep. "/". $file;
