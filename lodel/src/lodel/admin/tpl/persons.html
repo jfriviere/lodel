@@ -33,24 +33,7 @@
 <title>[@ADMIN.ADMINISTRATE_PERSONS] [#TYPE.TITLE]</title>
 <MACRO NAME="HEADER_HEAD_CLOSE">
 <MACRO NAME="HEADER_LOGO"> 
-<ul class="entitiesPath">
-	<li>
-	<strong>[@ADMIN.ADMINISTRATE_PERSONS]</strong>
-		<LET VAR="current_entry_type">[#TYPE.TITLE]</LET>
-		<LOOP NAME="getTypes" TABLE="persontypes" ORDER="rank">
-			&nbsp;&nbsp;<a href="[#SITEROOT]lodel/admin/index.php?do=list&amp;lo=persons&amp;idtype=[#ID]"><IF COND="[#TITLE] == [#CURRENT_ENTRY_TYPE]"><strong>[#TITLE]</strong><ELSE />[#TITLE]</IF></a>&nbsp;&nbsp;|
-			<DOLAST>&nbsp;&nbsp;<a href="[#SITEROOT]lodel/admin/index.php?do=list&amp;lo=persons&amp;idtype=[#ID]"><IF COND="[#TITLE] == [#CURRENT_ENTRY_TYPE]"><strong>[#TITLE]</strong><ELSE />[#TITLE]</IF></a></DOLAST>	
-			<!--[	
-			<BEFORE><select onchange="select_url(this)" class="barInfo"></BEFORE>
-			<IF COND="[#TITLE] EQ [#CURRENT_ENTRY_TYPE]">
-				<option selected="selected">[#TITLE]</option>
-			<ELSE />
-				<option value="[#SITEROOT]lodel/admin/index.php?do=list&amp;lo=persons&amp;idtype=[#ID]">[#TITLE]</option>
-			</IF>
-			<AFTER></select></AFTER>]-->
-		</LOOP>
-	</li>
-</ul>
+
 <ul id="actionsOnEntitiesPath">
 	<li>
 		<span class="intit">[@COMMON.TYPE] :</span> [#TYPE.TITLE]

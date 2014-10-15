@@ -35,42 +35,6 @@
 <MACRO NAME="HEADER_LOGO"> 
 
 
-<ul class="entitiesPath">
-	<li>
-	<strong>[@ADMIN.ADMINISTRATE_ENTRY_BY]</strong>
-		<IF COND="![#EXTERNAL]">
-			<LET VAR="current_entry_id">[#TYPE.ID]</LET>
-			<LOOP NAME="getTypes" TABLE="entrytypes" ORDER="rank">
-				<!--[
-				<BEFORE><select onchange="select_url(this)" class="barInfo"></BEFORE>
-				<IF COND="[#TITLE] EQ [#CURRENT_ENTRY_TYPE]">
-					<option selected="selected">[#TITLE]</option>
-				<ELSE />
-					<option value="[#SITEROOT]lodel/admin/index.php?do=list&amp;lo=entries&amp;idtype=[#ID]">[#TITLE]</option>
-				</IF>
-				<AFTER></select></AFTER>]-->
-				&nbsp;&nbsp;<a href="[#SITEROOT]lodel/admin/index.php?do=list&amp;lo=entries&amp;idtype=[#ID]"><IF COND="[#ID] == [#CURRENT_ENTRY_ID]"><strong>[#TITLE]</strong><ELSE />[#TITLE]</IF></a>&nbsp;&nbsp;|
-				<DOLAST>&nbsp;&nbsp;<a href="[#SITEROOT]lodel/admin/index.php?do=list&amp;lo=entries&amp;idtype=[#ID]"><IF COND="[#ID] == [#CURRENT_ENTRY_ID]"><strong>[#TITLE]</strong><ELSE />[#TITLE]</IF></a></DOLAST>
-			</LOOP>
-		<ELSE/>
-			<LET VAR="current_entry_id">[#SITE_EXT].[#TYPE.ID]</LET>
-			<LOOP SELECT="site as s, id2" NAME="getExtRelations" TABLE="relations_ext" WHERE="nature='ET'">
-				<LET VAR="curidtype">[#S].[#ID2]</LET>
-				<LET VAR="curdb"><?php echo '`'.DATABASE.'_'.$context['s'].'`'; ?></LET>
-				<LOOP NAME="getExtEntrytypesTitle" SELECT="title" DATABASE="[#CURDB]" TABLE="entrytypes" ORDER="rank" WHERE="id=[#ID2]">
-					<LET ARRAY="t.#CURIDTYPE" GLOBAL="1">[#TITLE]</LET>
-				</LOOP>
-			</LOOP>
-			<LET ARRAY="t">[%T|array_unique]</LET>
-			<LOOP NAME="foreach" ARRAY="[#T]">
-				<IF COND="[#KEY] LIKE /([a-z0-9\-]+)\.\d+/">
-					&nbsp;&nbsp;<a href="[#SITEROOT]lodel/admin/index.php?do=list&amp;lo=entries&amp;idtype=[#KEY]"><IF COND="[#KEY] == [#CURRENT_ENTRY_ID]"><strong>[#MATCHES.1.0] - [#VALUE]</strong><ELSE />[#MATCHES.1.0] - [#VALUE]</IF></a>&nbsp;&nbsp;|
-				</IF>
-			</LOOP>
-		</IF>
-	</li>
-</ul>
-
 <ul id="actionsOnEntitiesPath">
 	<li>
 	<span class="intit">[@COMMON.TYPE] :</span> [#TYPE.TITLE]

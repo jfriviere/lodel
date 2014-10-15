@@ -28,84 +28,209 @@
 <USE MACROFILE="macros.html">
 <USE MACROFILE="macros_admin.html">
 <USE MACROFILE="macros_interface.html">
-<script type="text/javascript" src="[#SHAREURL]/js/interface.js"></script>
-
-<style type="text/css">
-	@import url("[#SHAREURL]/css/styles_desk.css");
-	#lodel-desk{
-		background-image: url("[#SHAREURL]/images/bg_top.png");
-		background-repeat: repeat-x;
-	}
-	#lodel-desk ul li a{
-		background: #0096b7 url("[#SHAREURL]/images/bg_li_group1.png") top left no-repeat;
-	}
-	#lodel-desk ul li a:hover{
-		border:none;
-	}
-	#lodel-desk ul li.admin a{
-		background: #0075ab url("[#SHAREURL]/images/bg_li_admin_group1.png") top left no-repeat;
-	}
-	#lodel-desk ul li a.actif, #lodel-desk ul li a:hover{
-		background: #e18600 url("[#SHAREURL]/images/bg_li_group1_on.png") top left no-repeat;
-	}
-	#lodel-desk ul.group2 a#logout{
-		background: transparent url("[#SHAREURL]/images/bg_logout.png") top left no-repeat;
-	}
-	#lodel-desk ul.group2 a#clearcache, #lodel-desk ul.group2 a#recalcultpl{
-		background: transparent url("[#SHAREURL]/images/bg_clearcache.png") top left no-repeat;
-	}
-	#lodel-desk ul.group1 li.site a{
-		width:100px;
-	}
-	ul.listEntities li ul li div.entityIcons{
-		background-image: url("[#SHAREURL]/images/tree.gif");
-		background-position: 0 .5ex;
-		background-repeat: no-repeat;
-	}
-<IF COND="defined('backoffice') AND !defined('backoffice-edition')">
-	#lodel-container{
-		position: relative;
-	}
-</IF>
-	div.loggedUsers{
-		padding-left:1em;
-		font-size: 90%;
-		padding-top:.2em;
-		text-align:left;
-		background-color:#E5E8E3;
-	}
-	
-	div.loggedUsers span#loggedUsers {
-		display:none;
-	}
-<IF COND="!defined('backoffice') AND !defined('backoffice-lodeladmin')">
-	div#lodelGlobalDeskDisplayer {
-		text-align:middle;
-		background-color:#E5E8E3;
-		width:100%;
-	}
-	div#lodelGlobalDeskDisplayer a {
-		display:block;
-	}
-	div#lodelGlobalDeskDisplayer a:hover {
-		border:none;
-	}
-	img#lodelGlobalDeskDisplayer-img {
-		border:none;
-		margin:0 50%;
-	}
-</IF>
-	.selectred { background-color: red; }
-	.selectorange { background-color: orange; }
-	.selectgreen { background-color: green; }
-	select#cache {
-		background:#FFFFFF none repeat scroll 0 0;
-		border:1px solid #333333;
-		font-family:"Courier New",Courier,mono;
-		font-size:110%;
-	}
-</style>
+<nav class="navbar navbar-default" role="navigation">
 <div id="lodel-globalDesk" style="<IF COND="!defined('backoffice') AND !defined('backoffice-lodeladmin') AND ![#LODELUSER.DESK]">display:none;<ELSE/>display:block;</IF>">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Lodel</a>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+<IF COND="[#SITE]">
+		<!--[***************** EDITION *****************]-->
+        <li class="dropdown <IF COND="(defined('backoffice-edition') OR [#LO] EQ 'useroptiongroups') AND ![#CURRENTURL|strpos('page=dashboard')] AND [#LO] NE 'internal_messaging'">active</IF>">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">[@COMMON.EDITION] <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+			<li<IF COND="![#CURRENTURL|strpos('lodel/edition/search')] AND ![#LO] AND ![#CURRENTURL|strpos('page=dashboard')] AND ![#ID]"> class="active"</IF>>
+				<a href="[#SITEROOT]lodel/edition/">[@COMMON.BROWSE]</a>
+			</li>
+			<li<IF COND="[#CURRENTURL|strpos('lodel/edition/search')]"> class="active"</IF>>
+				<a href="[#SITEROOT]lodel/edition/search.php">[@COMMON.SEARCH_ENGINE]</a>
+			</li>
+          </ul>
+        </li>
+		<!--[***************** DASHBOARD *****************]-->
+		<li class="dropdown <IF COND="[#CURRENTURL|strpos('page=dashboard')] AND [#PAGE] NE 'dashboard_information' AND [#PAGE] NE 'dashboard_statistics' AND [#PAGE] NE 'dashboard_me'">active</IF>">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">[@COMMON.DASHBOARD] <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+			<li<IF COND="[#PAGE] EQ 'dashboard_queue'"> class="active"</IF>>
+				<a href="[#SITEROOT]lodel/edition/index.php?page=dashboard_queue" title="[@COMMON.QUEUE_DESCRIPTION]">[@COMMON.QUEUE]</a>
+			</li>
+			<li<IF COND="[#PAGE] EQ 'dashboard_history'"> class="active"</IF>>
+				<a href="[#SITEROOT]lodel/edition/index.php?page=dashboard_history" title="[@COMMON.HISTORY_DESCRIPTION]">[@COMMON.HISTORY]</a>
+			</li>
+			<li<IF COND="[#PAGE] EQ 'dashboard_public_history'"> class="active"</IF>>
+				<a href="[#SITEROOT]lodel/edition/index.php?page=dashboard_public_history" title="[@COMMON.PUBLIC_HISTORY_DESCRIPTION]">[@COMMON.PUBLIC_HISTORY]</a>
+			</li>
+          </ul>
+        </li>
+		<!--[***************** INFORMATION *****************]-->
+		<li class="dropdown <IF COND="[#PAGE] EQ 'dashboard_information' OR [#PAGE] EQ 'dashboard_statistics' OR [#PAGE] EQ 'dashboard_me'">active</IF>">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">[@COMMON.INFORMATION] <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li<IF COND="[#PAGE] EQ 'dashboard_statistics'"> class="active"</IF>>
+				<a href="[#SITEROOT]lodel/edition/index.php?page=dashboard_statistics" title="[@COMMON.STATISTICS_DESCRIPTION]">[@COMMON.STATISTICS]</a>
+			</li>
+			<li<IF COND="[#PAGE] EQ 'dashboard_me'"> class="active"</IF>>
+				<a href="[#SITEROOT]lodel/edition/index.php?page=dashboard_me" title="[@COMMON.ME_DESCRIPTOR_DESCRIPTION]">[@COMMON.ME_DESCRIPTOR]</a>
+			</li>
+			<li<IF COND="[#PAGE] EQ 'dashboard_information'"> class="active"</IF>>
+				<a href="[#SITEROOT]lodel/edition/index.php?page=dashboard_information" title="[@COMMON.TECHNICAL_INFORMATION_DESCRIPTION]">[@COMMON.TECHNICAL_INFORMATION]</a>
+			<li><a href="[#SITEROOT]lodel/edition/index.php?page=sitemap" title="[@COMMON.SITE_MAP]">[@COMMON.SITE_MAP]</a></li>
+          </ul>
+        </li>
+        <!--[ ***************** INDEX *******************]-->
+        <li class="dropdown <IF COND="([#LO] EQ 'entries' OR [#LO] EQ 'persons') AND ([#DO] EQ 'list' OR [#DO] EQ 'massassoc')">active</IF>">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">[@ADMIN.INDEX] <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+			<!--[ ***************** CLASSIC INDEX *******************]-->
+			<LET VAR="current_entry_id">[#TYPE.ID]</LET>
+			<LOOP NAME="getTypes" TABLE="entrytypes" ORDER="rank">
+				<BEFORE>
+					<li class="dropdown-header">[@EDITION.ENTRIES_EDITION]</li>
+				</BEFORE>
+				<DO>
+					<li<IF COND="[#ID] == [#CURRENT_ENTRY_ID]"> class="active"</IF>><a href="[#SITEROOT]lodel/admin/index.php?do=list&amp;lo=entries&amp;idtype=[#ID]">[#TITLE]</a></li>
+				</DO>
+				<AFTER>
+					<li class="divider"></li>
+				</AFTER>
+			</LOOP>
+			<!--[ ***************** EXTERNAL INDEX *******************]-->
+			<LET VAR="current_entry_id">[#SITE_EXT].[#TYPE.ID]</LET>
+			<LOOP SELECT="site as s, id2" NAME="getExtRelations" TABLE="relations_ext" WHERE="nature='ET'">
+				<LET VAR="curidtype">[#S].[#ID2]</LET>
+				<LET VAR="curdb"><?php echo '`'.DATABASE.'_'.$context['s'].'`'; ?></LET>
+				<LOOP NAME="getExtEntrytypesTitle" SELECT="title" DATABASE="[#CURDB]" TABLE="entrytypes" ORDER="rank" WHERE="id=[#ID2]">
+					<LET ARRAY="t.#CURIDTYPE" GLOBAL="1">[#TITLE]</LET>
+				</LOOP>
+			</LOOP>
+			<LET ARRAY="t">[%T|array_unique]</LET>
+			<LOOP NAME="foreach" ARRAY="[#T]">
+				<BEFORE>
+					<li class="dropdown-header">[@EDITION.EXTERNALENTRIES_EDITION]</li>
+				</BEFORE>
+				<DO>
+					<IF COND="[#KEY] LIKE /([a-z0-9\-]+)\.\d+/">
+						<li<IF COND="[#KEY] == [#CURRENT_ENTRY_ID]"> class="active"</IF>><a href="[#SITEROOT]lodel/admin/index.php?do=list&amp;lo=entries&amp;idtype=[#KEY]">[#MATCHES.1.0] - [#VALUE]</a></li>
+					</IF>
+				</DO>
+				<AFTER>
+					<li class="divider"></li>
+				</AFTER>
+			</LOOP>
+			<!--[ ***************** PERSONS INDEX *******************]-->
+			<LOOP NAME="getPersonsTypes" TABLE="persontypes" ORDER="rank">
+				<BEFORE>
+					<li class="dropdown-header">[@EDITION.PERSONS_EDITION]</li>
+				</BEFORE>
+				<DO>
+					<li<IF COND="[#TITLE] == [#CURRENT_ENTRY_TYPE]"> class="active"</IF>><a href="[#SITEROOT]lodel/admin/index.php?do=list&amp;lo=persons&amp;idtype=[#ID]">[#TITLE]</a></li>
+				</DO>
+				<AFTER>
+					<li class="divider"></li>
+				</AFTER>
+			</LOOP>
+			<!--[ ***************** MASSASSOC *******************]-->
+			<li><a href="[#SITEROOT]lodel/admin/index.php?do=massassoc&amp;lo=entries&amp;idtype=[%FIRSTENTRYTYPE]">[@EDITION.ENTRIES_MASSASSOC]</a></li>
+          </ul>
+        </li>
+        <!--[ ***************** SITE *******************]-->
+		<li<IF COND="!defined('backoffice')"> class="active"</IF>>
+			<a href="[#SITEROOT]index.[#EXTENSIONSCRIPTS]">
+				[@COMMON.SITE]
+			</a>
+		</li>
+		<!--[ ***************** ADMIN *******************]-->
+	<IF COND="![#LODELUSER.REDACTOR]">	
+		<li><a href="#" onclick="return(false)">
+	<ELSE/>
+		<li<IF COND="defined('backoffice-admin') AND [#LO] NE 'internal_messaging' AND !((defined('backoffice-edition') OR [#LO] EQ 'entries' OR [#LO] EQ 'persons' OR [#LO] EQ 'useroptiongroups') AND ![#CURRENTURL|strpos('page=dashboard')])"> class="active"</IF>>
+			<a href="[#SITEROOT]lodel/admin/index.php">
+	</IF>
+				[@COMMON.ADMINISTRATION]
+			</a>
+		</li>
+		<!--[ ***************** INTERNAL_MESSAGING *******************]-->
+		<LET VAR="lodeluserid">
+			<IF COND="[#LODELUSER.ADMINLODEL]">
+				lodelmain-[#LODELUSER.ID]
+			<ELSE />
+				[#SITE]-[#LODELUSER.ID]
+			</IF>
+		</LET>
+		<LOOP NAME="nbInternalAdminMsgs" SELECT="count(id) as nbmsgs" TABLE="internal_messaging" WHERE="recipient EQ '[#LODELUSERID|trim]' AND status EQ 1">
+			<LET VAR="nbmsgs" GLOBAL="1">[#NBMSGS]</LET>
+		</LOOP>	
+		<li class="dropdown <IF COND="[#LO] EQ 'internal_messaging'"> active</IF>">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown">[@COMMON.INTERNAL_MESSAGING]<IF COND="[%NBMSGS]">&nbsp;([%NBMSGS])</IF> <span class="caret"></span></a>
+			<ul class="dropdown-menu" role="menu">
+				<LET VAR="directory"><IF COND="![#DIRECTORY|empty]">[#DIRECTORY|strtolower]<ELSE/>inbox</IF></LET>
+				<li<IF COND="'inbox' EQ [#DIRECTORY] AND [#DO] EQ 'list'"> class="active"</IF>>
+					<a href="index.php?lo=internal_messaging&amp;do=list" title="[@ADMIN.INTERNAL_MESSAGING_INBOX]">[@ADMIN.INTERNAL_MESSAGING_INBOX]</a>
+				</li>
+				<li<IF COND="'sent' EQ [#DIRECTORY] AND [#DO] EQ 'list'"> class="active"</IF>>
+					<a href="index.php?lo=internal_messaging&amp;directory=sent&amp;do=list" title="[@ADMIN.INTERNAL_MESSAGING_SENT]">[@ADMIN.INTERNAL_MESSAGING_SENT]</a>
+				</li>
+				<li<IF COND="'trash' EQ [#DIRECTORY] AND [#DO] EQ 'list'"> class="active"</IF>>
+					<a href="index.php?lo=internal_messaging&amp;directory=trash&amp;do=list" title="[@ADMIN.INTERNAL_MESSAGING_TRASH]">[@ADMIN.INTERNAL_MESSAGING_TRASH]</a>
+				</li>
+			</ul>
+		</li>
+<ELSE/>
+		<li <IF COND="![#LO]"> class="active"</IF>>
+			<a href="index.php" id="admin">[@COMMON.ADMINISTRATIONLODEL]</a>
+		</li>
+		<LET VAR="lodeluserid">lodelmain-[#LODELUSER.ID]</LET>
+		<LOOP NAME="nbInternalAdminMsgs" SELECT="count(id) as nbmsgs" TABLE="internal_messaging" WHERE="recipient EQ '[#LODELUSERID|trim]' AND status EQ 1">
+			<LET VAR="nbmsgs" GLOBAL="1">[#NBMSGS]</LET>
+		</LOOP>	
+		<li class="dropdown <IF COND="[#LO] EQ 'internal_messaging'"> active</IF>">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown">[@COMMON.INTERNAL_MESSAGING]<IF COND="[%NBMSGS]">&nbsp;([%NBMSGS])</IF> <span class="caret"></span></a>
+			<ul class="dropdown-menu" role="menu">
+				<li><a href="#">Action</a></li>
+			</ul>
+		</li>
+</IF>
+
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+		<li>		
+		<IF COND="[#LODELUSER.ADMIN]">
+			<a href="[#CLEARCACHEURL]" id="clearcache" title="[@COMMON.CLEARCACHE]">
+		<ELSE/>
+			<a id="clearcache" class="inactif" title="[@COMMON.CLEARCACHE]">
+		</IF>
+			[@COMMON.CLEARCACHE]</a>
+		</li>
+        <li>
+		<IF COND="!defined('backoffice-admin') AND !defined('backoffice-lodeladmin')">
+			<a href="[#SITEROOT]lodel/admin/logout.php" id="logout" title="[@COMMON.LOGOUT]">[@COMMON.LOGOUT]</a>
+		<ELSE />
+			<a href="logout.php" id="logout" title="[@COMMON.LOGOUT]">[@COMMON.LOGOUT]</a>
+		</IF>
+		</li>
+      </ul>
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<!--[
+
 <div id="lodel-desk">
 	<h1 id="lodel"><img src="[#SHAREURL]/images/lodel.png" alt="Lodel, logiciel d'édition électronique"/></h1>
 	<ul  class="group1">
@@ -241,10 +366,10 @@
 		[@COMMON.CLEARCACHE]</a>
 	</li>
 	</ul>
-
+]-->
 	<ul id="deskContext">
 		<IF COND="[#LO] EQ 'entries' OR [#LO] EQ 'persons'">
-			<LOOP NAME="getFirstEntriesType" TABLE="entrytypes" ORDER="rank" LIMIT="0,1">
+			<!--[<LOOP NAME="getFirstEntriesType" TABLE="entrytypes" ORDER="rank" LIMIT="0,1">
 				<li>
 				<IF COND="[#LO] EQ 'entries' AND [#DO] EQ 'list' AND ![#EXTERNAL]">
 					<strong>[@EDITION.ENTRIES_EDITION]</strong>
@@ -281,9 +406,9 @@
 				<ELSE/>
 					<a href="[#SITEROOT]lodel/admin/index.php?do=massassoc&amp;lo=entries&amp;idtype=[%FIRSTENTRYTYPE]">[@EDITION.ENTRIES_MASSASSOC]</a>
 				</IF>
-			</li>
+			</li>]-->
 		<ELSEIF COND="(defined('backoffice-edition') OR [#LO] EQ 'useroptiongroups') AND ![#CURRENTURL|strpos('page=dashboard')]">
-			<li>
+			<!--[<li>
 			<IF COND="![#CURRENTURL|strpos('lodel/edition/search')] AND ![#LO] AND ![#CURRENTURL|strpos('page=dashboard')] AND ![#ID]">
 				<strong>[@COMMON.BROWSE]</strong>
 			<ELSE/>
@@ -306,9 +431,9 @@
 					<a href="[#SITEROOT]lodel/admin/index.php?do=view&amp;lo=useroptiongroups&amp;id=[#ID]">[@EDITION.SITE_OPTIONS]</a>
 				</IF>
 				</li>
-			</LOOP>
+			</LOOP>]-->
 		<ELSEIF COND="[#CURRENTURL|strpos('page=dashboard')] AND [#PAGE] NE 'dashboard_information' AND [#PAGE] NE 'dashboard_statistics' AND [#PAGE] NE 'dashboard_me'">
-			<li>
+			<!--[<li>
 			<IF COND="[#PAGE] EQ 'dashboard_queue'">
 				<strong>[@COMMON.QUEUE]</strong>
 			<ELSE/>
@@ -328,9 +453,9 @@
 			<ELSE/>
 				<a href="[#SITEROOT]lodel/edition/index.php?page=dashboard_public_history" title="[@COMMON.PUBLIC_HISTORY_DESCRIPTION]">[@COMMON.PUBLIC_HISTORY]</a>
 			</IF>
-			</li>
+			</li>]-->
 		<ELSEIF COND="[#PAGE] EQ 'dashboard_information' OR [#PAGE] EQ 'dashboard_statistics' OR [#PAGE] EQ 'dashboard_me'">
-			<li>
+			<!--[<li>
 			<IF COND="[#PAGE] EQ 'dashboard_statistics'">
 				<strong>[@COMMON.STATISTICS]</strong>
 			<ELSE/>
@@ -353,9 +478,9 @@
 			<ELSE/>
 				<a href="[#SITEROOT]lodel/edition/index.php?page=dashboard_information" title="[@COMMON.TECHNICAL_INFORMATION_DESCRIPTION]">[@COMMON.TECHNICAL_INFORMATION]</a>
 			</IF>
-			<li><a href="[#SITEROOT]lodel/edition/index.php?page=sitemap" target="_blank" title="[@COMMON.SITE_MAP]">[@COMMON.SITE_MAP]</a></li>
+			<li><a href="[#SITEROOT]lodel/edition/index.php?page=sitemap" target="_blank" title="[@COMMON.SITE_MAP]">[@COMMON.SITE_MAP]</a></li>]-->
 		<ELSEIF COND="[#LO] EQ 'internal_messaging' AND [#DO]">
-            		<LET VAR="directory"><IF COND="![#DIRECTORY|empty]">[#DIRECTORY|strtolower]<ELSE/>inbox</IF></LET>
+         <!--[   		<LET VAR="directory"><IF COND="![#DIRECTORY|empty]">[#DIRECTORY|strtolower]<ELSE/>inbox</IF></LET>
 			<li>
 				<IF COND="'inbox' EQ [#DIRECTORY] AND [#DO] EQ 'list'">
 					<strong>[@ADMIN.INTERNAL_MESSAGING_INBOX]</strong>
@@ -376,7 +501,7 @@
 				<ELSE/>
 					<a href="index.php?lo=internal_messaging&amp;directory=trash&amp;do=list" title="[@ADMIN.INTERNAL_MESSAGING_TRASH]">[@ADMIN.INTERNAL_MESSAGING_TRASH]</a>
 				</IF>
-			</li>
+			</li>]-->
 		</IF>
 		<li><a>&nbsp;</a></li>
 		<li>
