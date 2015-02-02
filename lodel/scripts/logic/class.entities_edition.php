@@ -1087,6 +1087,7 @@ class Entities_EditionLogic extends GenericLogic
 		foreach($fields as $field){
 			$hooks = preg_split('/,/', $field->editionhooks, -1, PREG_SPLIT_NO_EMPTY );
 			foreach($hooks as $hook){
+				$hook = str_replace(array('pre:','post:'),'',$hook); // compatibilté future pour les hooks 1.0 qui serait défini dans le ME
 				if(function_exists($hook)){
 					$hook($context, $field->name);
 				}
