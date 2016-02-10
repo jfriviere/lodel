@@ -71,6 +71,7 @@ $cfg['shareurl'] .= $cfg['versionsuffix'];
 # recaptcha pour la partie signaler
 # par défaut désactivé
 $cfg['signaler_recaptcha'] = false;
+$cfg['signaler_recaptcha_v2'] = false;
 $cfg['recaptcha_privatekey'] = ""; // clé privée recaptcha
 $cfg['recaptcha_publickey'] = ""; // clé publique recaptcha
 
