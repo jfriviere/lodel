@@ -76,6 +76,9 @@
  * @since Classe ajoutée depuis la version 0.8
  * @see parser.php
  */
+
+require_once 'parser.php';
+
 class LodelParser extends Parser
 {
 	/**
